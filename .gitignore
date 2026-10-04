@@ -1,0 +1,10 @@
+# Local runtime state and secrets
+config.local.php
+config.php
+*.env
+data/
+private/
+storage/
+vendor/
+*.log
+/server - Copy.ps1

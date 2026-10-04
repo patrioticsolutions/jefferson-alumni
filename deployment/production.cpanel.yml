@@ -1,0 +1,10 @@
+deployment:
+  tasks:
+    - export DEPLOYPATH="$HOME/public_html/jeffersonalumni"
+    - /bin/mkdir -p "$DEPLOYPATH/assets"
+    - /bin/cp index.html "$DEPLOYPATH/index.html"
+    - /bin/cp community.html "$DEPLOYPATH/community.html"
+    - /bin/cp api.php "$DEPLOYPATH/api.php"
+    - /bin/cp media.php "$DEPLOYPATH/media.php"
+    - /bin/cp .htaccess "$DEPLOYPATH/.htaccess"
+    - /bin/cp assets/school-logo.png "$DEPLOYPATH/assets/school-logo.png"
