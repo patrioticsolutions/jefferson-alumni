@@ -1,6 +1,6 @@
 deployment:
   tasks:
-    - export DEPLOYPATH="HOME2/jhsalumni/public_html"
+    - export DEPLOYPATH="$HOME/public_html"
     - /bin/mkdir -p "$DEPLOYPATH/assets"
     - /bin/cp index.html "$DEPLOYPATH/index.html"
     - /bin/cp community.html "$DEPLOYPATH/community.html"
