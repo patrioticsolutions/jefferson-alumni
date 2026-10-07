@@ -9,7 +9,9 @@ $requestHost = strtolower(preg_replace('/:\\d+$/', '', (string)($_SERVER['HTTP_H
 $hostConfig = $requestHost === 'staging.jeffersonalumni.com' ? dirname(__DIR__, 2) . '/jefferson-private/staging-config.php' : null;
 $rootConfig = basename(__DIR__) === 'public_html' ? dirname(__DIR__) . '/jefferson-private/config.php' : null;
 $webRoot = realpath((string)($_SERVER['DOCUMENT_ROOT'] ?? ''));
-$candidates = array_filter([getenv('JH_CONFIG_PATH') ?: null, $hostConfig, dirname(__DIR__, 2) . '/jefferson-private/config.php', $rootConfig]);
+$candidates = $requestHost === 'staging.jeffersonalumni.com'
+    ? array_filter([$hostConfig])
+    : array_filter([getenv('JH_CONFIG_PATH') ?: null, dirname(__DIR__, 2) . '/jefferson-private/config.php', $rootConfig]);
 $configPath = null;
 foreach ($candidates as $candidate) { $candidateReal=realpath($candidate); if($candidateReal===false||!is_file($candidateReal)||!is_readable($candidateReal))continue; if($webRoot!==false&&($candidateReal===$webRoot||str_starts_with($candidateReal,rtrim($webRoot,DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR)))continue; $configPath=$candidateReal;break; }
 if (!$configPath) { http_response_code(404); exit; }

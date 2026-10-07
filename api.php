@@ -12,12 +12,10 @@ $requestHost = strtolower(preg_replace('/:\\d+$/', '', (string)($_SERVER['HTTP_H
 $hostConfig = $requestHost === 'staging.jeffersonalumni.com' ? dirname(__DIR__, 2) . '/jefferson-private/staging-config.php' : null;
 $rootConfig = basename(__DIR__) === 'public_html' ? dirname(__DIR__) . '/jefferson-private/config.php' : null;
 $webRoot = realpath((string)($_SERVER['DOCUMENT_ROOT'] ?? ''));
-$configCandidates = array_filter([
-    getenv('JH_CONFIG_PATH') ?: null,
-    $hostConfig,
-    dirname(__DIR__, 2) . '/jefferson-private/config.php',
-    $rootConfig,
-]);
+// Never let staging silently fall through to the production config.
+$configCandidates = $requestHost === 'staging.jeffersonalumni.com'
+    ? array_filter([$hostConfig])
+    : array_filter([getenv('JH_CONFIG_PATH') ?: null, dirname(__DIR__, 2) . '/jefferson-private/config.php', $rootConfig]);
 $configPath = null;
 foreach ($configCandidates as $candidate) {
     $candidateReal = realpath($candidate);
